@@ -466,7 +466,7 @@ function pokeBlip() {
   const el = S.screen === "home" ? $("home-mascot") : $("mascot-wrap");
   el.classList.remove("mood-dance"); void el.offsetWidth; el.classList.add("mood-dance");
   setTimeout(() => el.classList.remove("mood-dance"), 1300);
-  const lines = [["Blip blip! 🤖","Blip blip!"],["Hee hee! 😄","Hee hee! That tickles!"],["Boop! 🎵","Boop!"],["I'm Blip! 👋","I'm Blip!"],["Let's play! 🎶","Let's play!"]];
+  const lines = [["Blip blip! 🤖","Blip blip!"],["Boop! 🎵","Boop!"],["I'm Blip! 👋","I'm Blip!"],["Let's play! 🎶","Let's play!"]];
   const l = lines[Math.floor(Math.random()*lines.length)];
   if (S.screen === "play") {
     bubble(l[0], l[1]);
