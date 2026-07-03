@@ -324,7 +324,9 @@ function playNote(deg) {
   const t = audio().currentTime, f = FREQ[deg];
   switch (S.instrument) {
     case "blip":
-      tone(f, t, 0.22, "square", 0.16, f*1.6); tone(f*2, t+0.08, 0.14, "square", 0.07, f*2.4); break;
+      // pure-pitch double pip: fundamental + exact octave, no bend
+      tone(f, t, 0.14, "triangle", 0.4); tone(f*2, t, 0.08, "sine", 0.1);
+      tone(f, t+0.16, 0.3, "triangle", 0.35); tone(f*2, t+0.16, 0.15, "sine", 0.09); break;
     case "piano":
       tone(f, t, 0.6, "triangle", 0.4); tone(f*2, t, 0.4, "sine", 0.1); break;
     case "kazoo":
