@@ -345,19 +345,25 @@ function sfx(kind) {
   }
   else if (kind === "pop") tone(880, t, 0.1, "sine", 0.2, 1320);
 }
-let blipVoice = null;
+let blipVoice = null, blipVoicePitch = 1.6;
 function pickVoice() {
   try {
     const vs = (speechSynthesis.getVoices() || []).filter(v => v.lang && v.lang.toLowerCase().startsWith("en"));
     if (!vs.length) return;
-    // natural voices first (pitched up they sound like a happy cartoon), then character voices
-    const prefer = ["samantha", "google us english", "flo (english (united states))", "flo", "shelley", "karen", "aria", "zira", "victoria"];
+    // Junior (kid voice) first, then character voices, then natural voices pitched up
+    const prefer = [
+      ["junior", 1.3],
+      ["flo (english (united states))", 1.5], ["flo", 1.5],
+      ["shelley (english (united states))", 1.5], ["shelley", 1.5],
+      ["sandy (english (united states))", 1.5], ["sandy", 1.5],
+      ["google us english", 1.8], ["samantha", 1.8], ["karen", 1.8], ["aria", 1.8], ["zira", 1.8]
+    ];
     blipVoice = null;
-    for (const p of prefer) {
+    for (const [p, pitch] of prefer) {
       const v = vs.find(v => v.name.toLowerCase().includes(p));
-      if (v) { blipVoice = v; break; }
+      if (v) { blipVoice = v; blipVoicePitch = pitch; break; }
     }
-    if (!blipVoice) blipVoice = vs[0];
+    if (!blipVoice) { blipVoice = vs[0]; blipVoicePitch = 1.6; }
   } catch(e){}
 }
 if (window.speechSynthesis) {
@@ -370,7 +376,7 @@ function say(text) {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     if (blipVoice) u.voice = blipVoice;
-    u.rate = 1.1; u.pitch = 2; u.volume = 0.9;
+    u.rate = 1.05; u.pitch = blipVoicePitch; u.volume = 0.9;
     speechSynthesis.speak(u);
   } catch(e){}
 }
